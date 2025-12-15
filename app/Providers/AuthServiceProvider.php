@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\Services\AuthService;
 use Illuminate\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -11,7 +12,9 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton("AuthService", function() {
+            return new AuthService();
+        });
     }
 
     /**
