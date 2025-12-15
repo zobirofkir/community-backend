@@ -49,6 +49,14 @@ class User extends Authenticatable
         ];
     }
 
+    /**
+     * Create Access Token
+     */
+    public function accessToken() : string
+    {
+        return $this->createToken('accessToken')->accessToken;
+    }
+
     /* ==============================
        Relationships (Future-ready)
     ============================== */
