@@ -46,7 +46,7 @@ class AuthService implements AuthConstructor
      * - On failure → return 401 Unauthorized
      * - On success → return user details formatted in LoginResource
      */
-    public function login(LoginRequest $request): LoginResource
+    public function login(LoginRequest $request)
     {
         $validated = $request->validated();
 
@@ -61,7 +61,28 @@ class AuthService implements AuthConstructor
             abort(401, 'Invalid credentials.');
         }
 
-        return LoginResource::make($user);
+        /**
+         * Generate token (assuming you have this in User model)
+         */
+        $token = $user->createToken('accessToken')->plainTextToken;
+        
+        /**
+         * Set token in HTTP-only cookie
+         */
+        $cookie = cookie(
+            'accessToken',
+            $token,
+            config('sanctum.expiration', 60 * 24 * 7), // 7 days
+            '/',
+            null,
+            true, 
+            false,
+            'Strict'
+        );
+
+        return LoginResource::make($user)
+            ->response()
+            ->withCookie($cookie);
     }
 
     /**

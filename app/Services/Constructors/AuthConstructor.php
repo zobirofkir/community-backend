@@ -29,7 +29,7 @@ interface AuthConstructor
      * - On failure → return 401 Unauthorized
      * - On success → return user details formatted in LoginResource
      */
-    public function login(LoginRequest $request): LoginResource;
+    public function login(LoginRequest $request);
 
     /**
      * Get the currently authenticated user
