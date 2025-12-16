@@ -48,11 +48,17 @@ class AuthService implements AuthConstructor
      */
     public function login(LoginRequest $request): LoginResource
     {
-        $validatedData = $request->validated();
-        $user = User::where('email', $validatedData['email'])->first();
+        $validated = $request->validated();
 
-        if (! $user || ! Hash::check($validatedData['password'], $user->password)) {
-            abort(401);
+        $loginValue = $validated['login'];
+
+        $user = User::where(function ($query) use ($loginValue) {
+            $query->where('email', $loginValue)
+                ->orWhere('username', $loginValue);
+        })->first();
+
+        if (! $user || ! Hash::check($validated['password'], $user->password)) {
+            abort(401, 'Invalid credentials.');
         }
 
         return LoginResource::make($user);
