@@ -49,6 +49,15 @@ interface AuthConstructor
     public function deleteCurrentUser(): bool;
 
     /**
+     * Update Current Authenticated User
+     *
+     * - Validate user input through UpdateCurrentAuthUserRequest
+     * - Update user details in the database
+     * - Return updated user details formatted in CurrentAuthUserResource
+     */
+    public function updateCurrentUser(UpdateCurrentAuthUserRequest $request): CurrentAuthUserResource;
+
+    /**
      * Logout the current authenticated user
      *
      * - Revoke active API token for user

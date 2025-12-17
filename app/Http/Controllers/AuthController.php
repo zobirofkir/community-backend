@@ -53,6 +53,18 @@ class AuthController extends Controller
     }
 
     /**
+     * Update Current Authenticated User
+     *
+     * - Validate user input through UpdateCurrentAuthUserRequest
+     * - Update user details in the database
+     * - Return updated user details formatted in CurrentAuthUserResource
+     */
+    public function updateCurrentUser(UpdateCurrentAuthUserRequest $request): CurrentAuthUserResource
+    {
+        return AuthFacade::updateCurrentUser($request);
+    }
+
+    /**
      * Delete Current Authenticated User
      *
      * - Revoke all active tokens for the user (if using Sanctum/Passport)
