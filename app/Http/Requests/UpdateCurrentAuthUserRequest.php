@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateCurrentAuthUserRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class UpdateCurrentAuthUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +23,12 @@ class UpdateCurrentAuthUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "name" => "required|string|max:255",
+            "email" => "required|string|email|max:255|unique:users,email," . Auth::id(),
+            "username" => "required|string|max:255|unique:users,username," . Auth::id(),
+            "password" => "nullable|string|min:8|confirmed",
+            "avatar" => "nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048",
+            "bio" => "nullable|string|max:500",
         ];
     }
 }
