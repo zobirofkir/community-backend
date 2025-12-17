@@ -107,6 +107,22 @@ class AuthService implements AuthConstructor
         $user = Auth::user();
         $data = $request->validated();
 
+        if (array_key_exists('avatar', $data)) {
+            unset($data['avatar']);
+        }
+
+        if (array_key_exists('password', $data)) {
+            if (empty($data['password'])) {
+                unset($data['password']);
+            } else {
+                $data['password'] = Hash::make($data['password']);
+            }
+        }
+
+        if (array_key_exists('password_confirmation', $data)) {
+            unset($data['password_confirmation']);
+        }
+
         $user->update($data);
 
         if ($request->hasFile('avatar')) {
