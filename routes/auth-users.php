@@ -14,6 +14,11 @@ Route::get('me', [AuthController::class, 'me']);
 Route::delete('me', [AuthController::class, 'deleteCurrentUser']);
 
 /**
+ * Update Current Auth User
+ */
+Route::post('me', [AuthController::class, 'updateCurrentUser']);
+
+/**
  * Logout Current Auth User
  */
 Route::post('logout', [AuthController::class, 'logout']);
