@@ -104,7 +104,22 @@ class AuthService implements AuthConstructor
      */
     public function updateCurrentUser(UpdateCurrentAuthUserRequest $request): CurrentAuthUserResource
     {
-        //
+        $user = Auth::user();
+        $data = $request->validated();
+
+        $user->update($data);
+
+        if ($request->hasFile('avatar')) {
+            if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
+                Storage::disk('public')->delete($user->avatar);
+            }
+
+            $path = $request->file('avatar')->store('avatars', 'public');
+            $user->avatar = $path;
+            $user->save();
+        }
+
+        return CurrentAuthUserResource::make($user);
     }
 
     /**
