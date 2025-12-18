@@ -15,4 +15,14 @@ Route::middleware('throttle:5,1')->group(function () {
      */
     Route::post('login', [AuthController::class, 'login']);
 
+    /**
+     * Send Password Reset Link
+     */
+    Route::post('send-password', [ResetPasswordController::class, 'sendResetEmail']);
+
+    /**
+     * Reset Password
+     */
+    Route::post('reset-password', [ResetPasswordController::class, 'resetPassword']);
+
 });
