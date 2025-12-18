@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Password;
 use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
@@ -56,6 +57,14 @@ class User extends Authenticatable
     public function accessToken() : string
     {
         return $this->createToken('accessToken')->accessToken;
+    }
+
+    /**
+     * Create Password Reset Token
+     */
+    public function createPasswordResetToken()
+    {
+        return Password::broker()->createToken($this);
     }
 
     /* ==============================
