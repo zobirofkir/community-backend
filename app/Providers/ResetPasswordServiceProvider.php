@@ -13,7 +13,7 @@ class ResetPasswordServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton('ResetPasswordService', function () {
-            return new ResetPasswordService;
+            return new ResetPasswordService();
         });
     }
 
