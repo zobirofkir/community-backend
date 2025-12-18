@@ -43,6 +43,15 @@ class AuthService implements AuthConstructor
             $createUser->save();
         }
 
+        /**
+         * If the cover is null post default one
+         */
+        if (! $request->hasFile('cover') && empty($createUser->cover)) {
+            $createUser->cover = 'covers/cover-default.png';
+            $createUser->save();
+        }
+
+
         return RegisterResource::make($createUser);
     }
 
