@@ -135,6 +135,16 @@ class AuthService implements AuthConstructor
             $user->save();
         }
 
+        if ($request->hasFile('cover')) {
+            if ($user->cover && Storage::disk('public')->exists($user->cover)) {
+                Storage::disk('public')->delete($user->cover);
+            }
+
+            $path = $request->file('cover')->store('covers', 'public');
+            $user->cover = $path;
+            $user->save();
+        }
+
         return CurrentAuthUserResource::make($user);
     }
 

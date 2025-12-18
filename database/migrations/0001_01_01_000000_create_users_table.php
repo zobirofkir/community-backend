@@ -23,6 +23,7 @@ return new class extends Migration
             $table->rememberToken();
 
             $table->string('avatar')->nullable();
+            $table->string('cover')->nullable();
             $table->text('bio')->nullable();
 
             $table->boolean('is_active')->default(true);

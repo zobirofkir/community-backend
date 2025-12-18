@@ -28,6 +28,7 @@ class UpdateCurrentAuthUserRequest extends FormRequest
             "username" => "sometimes|string|max:255|unique:users,username," . Auth::id(),
             "password" => "nullable|string|min:8|confirmed",
             "avatar" => "nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048",
+            "cover" => "nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048",
             "bio" => "nullable|string|max:500",
         ];
     }
@@ -62,6 +63,10 @@ class UpdateCurrentAuthUserRequest extends FormRequest
             'avatar.image' => 'Avatar must be an image.',
             'avatar.mimes' => 'Avatar must be a file of type: :values.',
             'avatar.max' => 'Avatar size must not exceed :max kilobytes.',
+            
+            'cover.image' => 'Cover photo must be an image.',
+            'cover.mimes' => 'Cover photo must be a file of type: :values.',
+            'cover.max' => 'Cover photo size must not exceed :max kilobytes.',
 
             'bio.string' => 'Bio must be a string.',
             'bio.max' => 'Bio must not exceed :max characters.',
@@ -82,6 +87,7 @@ class UpdateCurrentAuthUserRequest extends FormRequest
             'password' => 'password',
             'password_confirmation' => 'password confirmation',
             'avatar' => 'avatar',
+            'cover' => 'cover photo',
             'bio' => 'bio',
         ];
     }
