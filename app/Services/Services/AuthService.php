@@ -35,6 +35,14 @@ class AuthService implements AuthConstructor
             $createUser->save();
         }
 
+        /**
+         * If the avatar is null post default one
+         */
+        if (! $request->hasFile('avatar') && empty($createUser->avatar)) {
+            $createUser->avatar = 'avatar/default.png';
+            $createUser->save();
+        }
+
         return RegisterResource::make($createUser);
     }
 
