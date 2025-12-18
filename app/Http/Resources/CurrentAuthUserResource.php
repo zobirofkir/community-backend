@@ -20,6 +20,7 @@ class CurrentAuthUserResource extends JsonResource
             'username' => $this->username,
             'email' => $this->email,
             'avatar' => asset('storage/' . $this->avatar),
+            'cover' => asset('storage/' . $this->cover),
             'bio' => $this->bio,
             'is_active' => $this->is_active,
             'created_at' => $this->created_at,
