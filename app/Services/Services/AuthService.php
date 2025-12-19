@@ -27,32 +27,41 @@ class AuthService implements AuthConstructor
      */
     public function register(RegisterRequest $request): RegisterResource
     {
-        $createUser = User::create($request->validated());
+        $data = $request->validated();
 
+        /**
+         * Default paths (relative to public/)
+         */
+        $data['avatar'] = 'avatars/default.png';
+        $data['cover']  = 'covers/cover-default.png';
+
+        /**
+         * Upload avatar if exists
+         */
         if ($request->hasFile('avatar')) {
-            $path = $request->file('avatar')->store('avatars', 'public');
-            $createUser->avatar = $path;
-            $createUser->save();
+            $data['avatar'] = $request->file('avatar')
+                ->storeAs(
+                    'avatars',
+                    uniqid() . '.' . $request->file('avatar')->getClientOriginalExtension(),
+                    'public'
+                );
         }
 
         /**
-         * If the avatar is null post default one
+         * Upload cover if exists
          */
-        if (! $request->hasFile('avatar') && empty($createUser->avatar)) {
-            $createUser->avatar = asset('avatars/default.png');
-            $createUser->save();
+        if ($request->hasFile('cover')) {
+            $data['cover'] = $request->file('cover')
+                ->storeAs(
+                    'covers',
+                    uniqid() . '.' . $request->file('cover')->getClientOriginalExtension(),
+                    'public'
+                );
         }
 
-        /**
-         * If the cover is null post default one
-         */
-        if (! $request->hasFile('cover') && empty($createUser->cover)) {
-            $createUser->cover = asset('covers/cover-default.png');
-            $createUser->save();
-        }
+        $user = User::create($data);
 
-
-        return RegisterResource::make($createUser);
+        return RegisterResource::make($user);
     }
 
     /**
