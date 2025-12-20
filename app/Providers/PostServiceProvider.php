@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\Services\PostService;
 use Illuminate\Support\ServiceProvider;
 
 class PostServiceProvider extends ServiceProvider
@@ -11,7 +12,9 @@ class PostServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind("PostService", function() {
+            return new PostService();
+        });
     }
 
     /**
