@@ -14,11 +14,13 @@ class PostService implements PostConstructor
     /**
      * Display a listing of the resource.
      */
-    public function index() : AnonymousResourceCollection
+    public function index(): AnonymousResourceCollection
     {
-        return PostResource::collection(
-            Post::paginate(10)
-        );
+        $posts = Post::with(['user', 'category']) // تحميل العلاقات مسبقًا
+            ->latest() 
+            ->paginate(10);
+        
+        return PostResource::collection($posts);
     }
 
     /**
@@ -27,15 +29,21 @@ class PostService implements PostConstructor
     public function store(PostRequest $request) : PostResource
     {
         $post = Auth::user()->posts()->create($request->validated());
+
+        $post->load(['user', 'category']);
         
         return PostResource::make($post);
     }
-    
+
     /**
      * Display the specified resource.
      */
-    public function show(Post $post) : PostResource
+    public function show(Post $post): PostResource
     {
+        $post->increment('views');
+        
+        $post->load(['user', 'category']);
+        
         return PostResource::make($post);
     }
 
