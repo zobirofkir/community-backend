@@ -47,7 +47,7 @@ class PostController extends Controller implements PostConstructor
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post) : PostResource
+    public function destroy(Post $post) : bool
     {
         return PostFacade::destroy($post);
     }

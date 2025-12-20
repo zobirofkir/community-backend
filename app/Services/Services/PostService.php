@@ -16,7 +16,7 @@ class PostService implements PostConstructor
      */
     public function index(): AnonymousResourceCollection
     {
-        $posts = Post::with(['user', 'category']) // تحميل العلاقات مسبقًا
+        $posts = Post::with(['user', 'category'])
             ->latest() 
             ->paginate(10);
         
@@ -62,7 +62,7 @@ class PostService implements PostConstructor
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post) : PostResource
+    public function destroy(Post $post) : bool
     {
         return $post->delete();
     }
