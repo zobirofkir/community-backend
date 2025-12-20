@@ -12,7 +12,7 @@ class CategoryServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind("CategoryServie", function() {
+        $this->app->bind("CategoryService", function() {
             return new CategoryService();
         });
     }
