@@ -6,6 +6,7 @@ use App\Http\Requests\PostRequest;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Services\Constructors\PostConstructor;
+use App\Services\Facades\PostFacade;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -16,7 +17,7 @@ class PostController extends Controller implements PostConstructor
      */
     public function index() : AnonymousResourceCollection
     {
-        //
+        return PostFacade::index();
     }
 
     /**
@@ -24,7 +25,7 @@ class PostController extends Controller implements PostConstructor
      */
     public function store(PostRequest $request) : PostResource
     {
-        //
+        return PostFacade::store($request);
     }
 
     /**
@@ -32,7 +33,7 @@ class PostController extends Controller implements PostConstructor
      */
     public function show(Post $post) : PostResource
     {
-        //
+        return PostFacade::show($post);
     }
 
     /**
@@ -40,7 +41,7 @@ class PostController extends Controller implements PostConstructor
      */
     public function update(PostRequest $request, Post $post) : PostResource
     {
-        //
+        return PostFacade::update($request, $post);
     }
 
     /**
@@ -48,6 +49,6 @@ class PostController extends Controller implements PostConstructor
      */
     public function destroy(Post $post) : PostResource
     {
-        //
+        return PostFacade::destroy($post);
     }
 }
