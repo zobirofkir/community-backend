@@ -3,15 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
+use App\Http\Resources\PostResource;
 use App\Models\Post;
+use App\Services\Constructors\PostConstructor;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
-class PostController extends Controller
+class PostController extends Controller implements PostConstructor
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index() : AnonymousResourceCollection
     {
         //
     }
@@ -19,7 +22,7 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(PostRequest $request)
+    public function store(PostRequest $request) : PostResource
     {
         //
     }
@@ -27,7 +30,7 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
+    public function show(Post $post) : PostResource
     {
         //
     }
@@ -35,7 +38,7 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(PostRequest $request, Post $post)
+    public function update(PostRequest $request, Post $post) : PostResource
     {
         //
     }
@@ -43,7 +46,7 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post)
+    public function destroy(Post $post) : PostResource
     {
         //
     }
