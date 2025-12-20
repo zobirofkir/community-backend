@@ -15,10 +15,12 @@ class PostService implements PostConstructor
      * Display a listing of the resource.
      */
     public function index(): AnonymousResourceCollection
-    {        
-        return PostResource::collection(
-            Post::paginate(10)->load(['user', 'category'])
-        );
+    {
+        $posts = Post::with(['user', 'category'])
+            ->latest() 
+            ->paginate(10);
+        
+        return PostResource::collection($posts);
     }
 
     /**
