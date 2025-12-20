@@ -70,4 +70,13 @@ class User extends Authenticatable
     /* ==============================
        Relationships (Future-ready)
     ============================== */
+
+    /**
+     * Has many posts
+     */
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+    
 }
