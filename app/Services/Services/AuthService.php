@@ -30,13 +30,41 @@ class AuthService implements AuthConstructor
         $data = $request->validated();
 
         /**
-         * Default paths (relative to public/)
+         * Default avatar and cover paths in public folder
          */
-        $data['avatar'] = 'avatars/default.png';
-        $data['cover']  = 'covers/cover-default.png';
+        $defaultAvatarPath = 'avatars/default.png';  // in public/avatars/
+        $defaultCoverPath = 'covers/cover-default.png';  // in public/covers/
 
         /**
-         * Upload avatar if exists
+         * Copy default avatar to storage and get storage path
+         */
+        if (file_exists(public_path($defaultAvatarPath))) {
+            $avatarContent = file_get_contents(public_path($defaultAvatarPath));
+            $avatarStoragePath = 'avatars/' . uniqid() . '_default.png';
+            Storage::disk('public')->put($avatarStoragePath, $avatarContent);
+            $data['avatar'] = $avatarStoragePath;
+        } else {
+            $data['avatar'] = 'avatars/default.png';
+        }
+
+        /**
+         * Copy default cover to storage and get storage path
+         */
+        if (file_exists(public_path($defaultCoverPath))) {
+            $coverContent = file_get_contents(public_path($defaultCoverPath));
+            $coverStoragePath = 'covers/' . uniqid() . '_cover-default.png';
+            Storage::disk('public')->put($coverStoragePath, $coverContent);
+            $data['cover'] = $coverStoragePath;
+        } else {
+            
+            /**
+             * Fallback if default file doesn't exist
+             */
+            $data['cover'] = 'covers/cover-default.png';
+        }
+
+        /**
+         * Upload custom avatar if provided
          */
         if ($request->hasFile('avatar')) {
             $data['avatar'] = $request->file('avatar')
@@ -48,7 +76,7 @@ class AuthService implements AuthConstructor
         }
 
         /**
-         * Upload cover if exists
+         * Upload custom cover if provided
          */
         if ($request->hasFile('cover')) {
             $data['cover'] = $request->file('cover')
@@ -63,7 +91,6 @@ class AuthService implements AuthConstructor
 
         return RegisterResource::make($user);
     }
-
     /**
      * Authenticate an existing user
      *
