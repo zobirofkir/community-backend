@@ -6,13 +6,14 @@ use App\Http\Requests\PostRequest;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Request;
 
 interface PostConstructor
 {
     /**
      * Display a listing of the resource.
      */
-    public function index() : AnonymousResourceCollection;
+    public function index(Request $request) : AnonymousResourceCollection;
 
     /**
      * Store a newly created resource in storage.

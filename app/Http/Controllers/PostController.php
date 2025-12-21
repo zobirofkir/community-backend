@@ -15,7 +15,7 @@ class PostController extends Controller implements PostConstructor
     /**
      * Display a listing of the resource.
      */
-    public function index() : AnonymousResourceCollection
+    public function index(Request $request) : AnonymousResourceCollection
     {
         return PostFacade::index();
     }
