@@ -21,7 +21,7 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'avatar' => asset('storage/' . $this->avatar),
             'bio' => $this->bio,
-            'posts' => PostResource::collection($this->whenLoaded('posts')),
+            'posts' => PostResource::collection($this->posts),
             'is_active' => $this->is_active,
             'created_at' => $this->created_at,
         ];
