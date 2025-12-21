@@ -2,6 +2,7 @@
 
 namespace App\Services\Services;
 
+use App\Helpers\MediaHelper;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UpdateCurrentAuthUserRequest;
@@ -30,84 +31,32 @@ class AuthService implements AuthConstructor
         $data = $request->validated();
 
         /**
-         * Default avatar and cover relative paths
+         * Default media
          */
-        $defaultAvatarPath = 'avatars/default.png';
-        $defaultCoverPath = 'covers/cover-default.png';
+        $data['avatar'] = MediaHelper::storeDefault(
+            'avatars/default.png',
+            'avatars',
+            'default'
+        );
+
+        $data['cover'] = MediaHelper::storeDefault(
+            'covers/cover-default.png',
+            'covers',
+            'cover-default'
+        );
 
         /**
-         * Helper: try several likely locations for bundled default images
-         * - public_path(<path>)
-         * - public_path('storage/'.<path>) (when storage:link is used)
-         * - storage_path('app/public/'.<path>)
-         * Returns file contents or null if not found
+         * Custom uploads override defaults
          */
-        $findDefaultContents = function (string $relativePath) {
-            $candidates = [
-                public_path($relativePath),
-                public_path('storage/' . $relativePath),
-                storage_path('app/public/' . $relativePath),
-            ];
+        $data['avatar'] = MediaHelper::storeUploaded(
+            $request->file('avatar'),
+            'avatars'
+        ) ?? $data['avatar'];
 
-            foreach ($candidates as $candidate) {
-                if ($candidate && file_exists($candidate)) {
-                    return file_get_contents($candidate);
-                }
-            }
-
-            return null;
-        };
-
-        /**
-         * Avatar: copy bundled default into public disk if available, otherwise leave relative path
-         */
-        $avatarContent = $findDefaultContents($defaultAvatarPath);
-        if ($avatarContent !== null) {
-            $avatarStoragePath = 'avatars/' . uniqid() . '_default.png';
-            Storage::disk('public')->put($avatarStoragePath, $avatarContent);
-            $data['avatar'] = $avatarStoragePath;
-        } else {
-            /**
-             * fallback to the relative path (consumer can resolve via asset/storage link)
-             */
-            $data['avatar'] = $defaultAvatarPath;
-        }
-
-        /**
-         * Cover: same logic as avatar
-         */
-        $coverContent = $findDefaultContents($defaultCoverPath);
-        if ($coverContent !== null) {
-            $coverStoragePath = 'covers/' . uniqid() . '_cover-default.png';
-            Storage::disk('public')->put($coverStoragePath, $coverContent);
-            $data['cover'] = $coverStoragePath;
-        } else {
-            $data['cover'] = $defaultCoverPath;
-        }
-
-        /**
-         * Upload custom avatar if provided
-         */
-        if ($request->hasFile('avatar')) {
-            $data['avatar'] = $request->file('avatar')
-                ->storeAs(
-                    'avatars',
-                    uniqid() . '.' . $request->file('avatar')->getClientOriginalExtension(),
-                    'public'
-                );
-        }
-
-        /**
-         * Upload custom cover if provided
-         */
-        if ($request->hasFile('cover')) {
-            $data['cover'] = $request->file('cover')
-                ->storeAs(
-                    'covers',
-                    uniqid() . '.' . $request->file('cover')->getClientOriginalExtension(),
-                    'public'
-                );
-        }
+        $data['cover'] = MediaHelper::storeUploaded(
+            $request->file('cover'),
+            'covers'
+        ) ?? $data['cover'];
 
         $user = User::create($data);
 
