@@ -119,7 +119,9 @@ class AuthService implements AuthConstructor
      */
     public function me(): CurrentAuthUserResource
     {
-        return CurrentAuthUserResource::make(Auth::user());
+        $user = Auth::user();
+        $user->load('posts');
+        return CurrentAuthUserResource::make($user);
     }
 
     /**
