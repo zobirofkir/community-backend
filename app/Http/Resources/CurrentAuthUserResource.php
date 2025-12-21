@@ -22,7 +22,7 @@ class CurrentAuthUserResource extends JsonResource
             'avatar' => asset('storage/' . $this->avatar),
             'cover' => asset('storage/' . $this->cover),
             'bio' => $this->bio,
-            'posts' => PostResource::collection($this->posts),
+            'posts' => PostResource::collection($this->whenLoaded('posts')),
             'is_active' => $this->is_active,
             'created_at' => $this->created_at,
         ];
