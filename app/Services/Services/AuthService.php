@@ -30,37 +30,59 @@ class AuthService implements AuthConstructor
         $data = $request->validated();
 
         /**
-         * Default avatar and cover paths in public folder
+         * Default avatar and cover relative paths
          */
-        $defaultAvatarPath = 'avatars/default.png';  // in public/avatars/
-        $defaultCoverPath = 'covers/cover-default.png';  // in public/covers/
+        $defaultAvatarPath = 'avatars/default.png';
+        $defaultCoverPath = 'covers/cover-default.png';
 
         /**
-         * Copy default avatar to storage and get storage path
+         * Helper: try several likely locations for bundled default images
+         * - public_path(<path>)
+         * - public_path('storage/'.<path>) (when storage:link is used)
+         * - storage_path('app/public/'.<path>)
+         * Returns file contents or null if not found
          */
-        if (file_exists(public_path($defaultAvatarPath))) {
-            $avatarContent = file_get_contents(public_path($defaultAvatarPath));
+        $findDefaultContents = function (string $relativePath) {
+            $candidates = [
+                public_path($relativePath),
+                public_path('storage/' . $relativePath),
+                storage_path('app/public/' . $relativePath),
+            ];
+
+            foreach ($candidates as $candidate) {
+                if ($candidate && file_exists($candidate)) {
+                    return file_get_contents($candidate);
+                }
+            }
+
+            return null;
+        };
+
+        /**
+         * Avatar: copy bundled default into public disk if available, otherwise leave relative path
+         */
+        $avatarContent = $findDefaultContents($defaultAvatarPath);
+        if ($avatarContent !== null) {
             $avatarStoragePath = 'avatars/' . uniqid() . '_default.png';
             Storage::disk('public')->put($avatarStoragePath, $avatarContent);
             $data['avatar'] = $avatarStoragePath;
         } else {
-            $data['avatar'] = 'avatars/default.png';
+            /**
+             * fallback to the relative path (consumer can resolve via asset/storage link)
+             */
+            $data['avatar'] = $defaultAvatarPath;
         }
 
         /**
-         * Copy default cover to storage and get storage path
+         * Cover: same logic as avatar
          */
-        if (file_exists(public_path($defaultCoverPath))) {
-            $coverContent = file_get_contents(public_path($defaultCoverPath));
+        $coverContent = $findDefaultContents($defaultCoverPath);
+        if ($coverContent !== null) {
             $coverStoragePath = 'covers/' . uniqid() . '_cover-default.png';
             Storage::disk('public')->put($coverStoragePath, $coverContent);
             $data['cover'] = $coverStoragePath;
         } else {
-            
-            /**
-             * Fallback if default file doesn't exist
-             */
-            $data['cover'] = 'covers/cover-default.png';
+            $data['cover'] = $defaultCoverPath;
         }
 
         /**
@@ -91,6 +113,7 @@ class AuthService implements AuthConstructor
 
         return RegisterResource::make($user);
     }
+
     /**
      * Authenticate an existing user
      *
