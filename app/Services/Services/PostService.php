@@ -50,7 +50,7 @@ class PostService implements PostConstructor
             }
         }
         
-        $posts = $query->paginate($request->get('per_page', 2));
+        $posts = $query->paginate($request->get('per_page', 10));
         
         return PostResource::collection($posts);
     }
