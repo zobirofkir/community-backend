@@ -22,8 +22,13 @@ class PostResource extends JsonResource
             'created_at' => $this->created_at,
             'created_at' => $this->created_at,
             'category_id' => $this->category_id,
-            'user' => UserResource::whenLoaded('user'),
-            'category' => CategoryResource::whenLoaded('category'),
+            'user' => UserResource::make(
+                $this->whenLoaded('user')
+            ),
+            'category' => CategoryResource::make(
+                $this->whenLoaded('category')
+            ),
+
         ];
     }
 }
