@@ -18,7 +18,7 @@ class PostService implements PostConstructor
     {
         $posts = Post::with(['user', 'category'])
             ->latest() 
-            ->paginate(10);
+            ->paginate(2);
         
         return PostResource::collection($posts);
     }
