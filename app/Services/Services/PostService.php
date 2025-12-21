@@ -45,10 +45,10 @@ class PostService implements PostConstructor
     public function show(Post $post): PostResource
     {
         $post->increment('views');
-        
+
         $post->load(['user', 'category']);
-        
-        return PostResource::make($post);
+
+        return new PostResource($post);
     }
 
     /**
