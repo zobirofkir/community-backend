@@ -97,12 +97,13 @@ class AuthService implements AuthConstructor
         $cookie = cookie(
             'accessToken',
             $token,
-            config('sanctum.expiration', 60 * 24 * 7), // 7 days
+            60 * 24 * 7, // 7 days 
             '/',
             null,
-            true, 
-            true,
-            'Strict'
+            true, // secure
+            true, // httpOnly
+            false, // raw
+            'Strict' // sameSite
         );
 
         return LoginResource::make($user)
