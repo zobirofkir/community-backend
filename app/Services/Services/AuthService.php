@@ -97,14 +97,14 @@ class AuthService implements AuthConstructor
         $cookie = cookie(
             'accessToken',
             $token,
-            config('auth.passport.tokens.expire_in', 60 * 24 * 7), // Get from Passport config or default to 7 days
+            10080,
             '/',
             null,
-            config('app.env') === 'production', // secure in production only
-            true, // httpOnly
-            false, // raw
-            'Strict' // sameSite
+            true, 
+            true,
+            'Strict'
         );
+
         return LoginResource::make($user)
             ->response()
             ->withCookie($cookie);
