@@ -87,12 +87,9 @@ class AuthService implements AuthConstructor
         }
 
         /**
-         * Generate token (assuming you have this in User model)
+         * Generate token using Passport
          */
-        $tokenResult = $user->createToken('accessToken')->plainTextToken;
-
-        $token = $tokenResult->accessToken;
-        $expiresAt = $tokenResult->token->expires_at;
+        $token = $user->createToken('accessToken')->accessToken;
         
         /**
          * Set token in HTTP-only cookie
@@ -100,12 +97,13 @@ class AuthService implements AuthConstructor
         $cookie = cookie(
             'accessToken',
             $token,
-            $expiresAt->diffInMinutes(now()),
+            config('auth.passport.tokens.expire_in', 60 * 24 * 7), // Get from Passport config or default to 7 days
             '/',
             null,
-            true, 
-            true,
-            'Strict'
+            config('app.env') === 'production', // secure in production only
+            true, // httpOnly
+            false, // raw
+            'Strict' // sameSite
         );
 
         return LoginResource::make($user)
@@ -181,7 +179,7 @@ class AuthService implements AuthConstructor
     /**
      * Delete Current Authenticated User
      *
-     * - Revoke all active tokens for the user
+     * - Revoke all active tokens for the user (if using Passport)
      * - Permanently delete the user account
      * - Returns true if deletion was successful
      */
