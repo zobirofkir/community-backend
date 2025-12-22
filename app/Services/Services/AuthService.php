@@ -97,15 +97,15 @@ class AuthService implements AuthConstructor
         $cookie = cookie(
             name: 'accessToken',
             value: $token,
-            minutes: 60 * 24 * 7, // 7 days
-            path: '/',
-            domain: '.vercel.app', 
-            secure: app()->environment('production'), 
-            httpOnly: true,
-            raw: false,
-            sameSite: 'Strict'
+            minutes: 60*24*7,           // 7 days
+            path: '/',                   // path
+            domain: '.vercel.app',       // frontend domain name
+            secure: true,                // HTTPS just
+            httpOnly: true,              //  js can read 
+            sameSite: 'None'             // cross-site
         );
-        return LoginResource::make($user)
+
+    return LoginResource::make($user)
             ->response()
             ->withCookie($cookie);
     }
