@@ -99,7 +99,7 @@ class AuthService implements AuthConstructor
             value: $token,
             minutes: 60*24*7,           // 7 days
             path: '/',                   // path
-            domain: '.vercel.app',       // frontend domain name
+            domain: 'community-frontend-self.vercel.app',       // frontend domain name
             secure: true,                // HTTPS just
             httpOnly: true,              //  js can read 
             sameSite: 'None'             // cross-site
