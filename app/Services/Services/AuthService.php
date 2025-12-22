@@ -87,9 +87,9 @@ class AuthService implements AuthConstructor
         }
 
         /**
-         * Generate token using Passport
+         * Generate token (assuming you have this in User model)
          */
-        $token = $user->createToken('accessToken')->accessToken;
+        $token = $user->createToken('accessToken')->plainTextToken;
         
         /**
          * Set token in HTTP-only cookie
@@ -105,7 +105,6 @@ class AuthService implements AuthConstructor
             false, // raw
             'Strict' // sameSite
         );
-
         return LoginResource::make($user)
             ->response()
             ->withCookie($cookie);
