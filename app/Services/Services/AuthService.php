@@ -95,16 +95,16 @@ class AuthService implements AuthConstructor
          * Set token in HTTP-only cookie
          */
         $cookie = cookie(
-            'accessToken',
-            $token,
-            config('sanctum.expiration', 60 * 24 * 7), // 7 days
-            '/',
-            null,
-            true, 
-            false,
-            'Strict'
+            name: 'accessToken',
+            value: $token,
+            minutes: 60 * 24 * 7, // 7 days
+            path: '/',
+            domain: config('session.domain'), 
+            secure: app()->environment('production'), 
+            httpOnly: true,
+            raw: false,
+            sameSite: 'Strict'
         );
-
         return LoginResource::make($user)
             ->response()
             ->withCookie($cookie);
