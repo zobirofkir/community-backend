@@ -97,7 +97,7 @@ class AuthService implements AuthConstructor
         $cookie = cookie(
             'accessToken',
             $token,
-            10080,
+            config('sanctum.expiration', 60 * 24 * 7), // 7 days
             '/',
             null,
             true, 
