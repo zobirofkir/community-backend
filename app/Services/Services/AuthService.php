@@ -99,7 +99,7 @@ class AuthService implements AuthConstructor
             value: $token,
             minutes: 60 * 24 * 7, // 7 days
             path: '/',
-            domain: config('session.domain'), 
+            domain: '.vercel.app', 
             secure: app()->environment('production'), 
             httpOnly: true,
             raw: false,
