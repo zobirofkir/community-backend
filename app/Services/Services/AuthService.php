@@ -89,23 +89,26 @@ class AuthService implements AuthConstructor
         /**
          * Generate token (assuming you have this in User model)
          */
-        $token = $user->createToken('accessToken')->plainTextToken;
+        $tokenResult = $user->createToken('accessToken')->plainTextToken;
+
+        $token = $tokenResult->accessToken;
+        $expiresAt = $tokenResult->token->expires_at;
         
         /**
          * Set token in HTTP-only cookie
          */
         $cookie = cookie(
-            name: 'accessToken',
-            value: $token,
-            minutes: 60*24*7,           // 7 days
-            path: '/',                   // path
-            domain: 'community-frontend-self.vercel.app',       // frontend domain name
-            secure: true,                // HTTPS just
-            httpOnly: true,              //  js can read 
-            sameSite: 'None'             // cross-site
+            'accessToken',
+            $token,
+            $expiresAt->diffInMinutes(now()),
+            '/',
+            null,
+            true, 
+            true,
+            'Strict'
         );
 
-    return LoginResource::make($user)
+        return LoginResource::make($user)
             ->response()
             ->withCookie($cookie);
     }
@@ -178,7 +181,7 @@ class AuthService implements AuthConstructor
     /**
      * Delete Current Authenticated User
      *
-     * - Revoke all active tokens for the user (if using Sanctum/Passport)
+     * - Revoke all active tokens for the user
      * - Permanently delete the user account
      * - Returns true if deletion was successful
      */
