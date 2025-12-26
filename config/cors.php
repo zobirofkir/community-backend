@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['community-frontend-self.vercel.app', 'localhost'],
+    'allowed_origins' => ['https://community-frontend-self.vercel.app', 'localhost:3000'],
 
     'allowed_origins_patterns' => [],
 
