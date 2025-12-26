@@ -102,7 +102,7 @@ class AuthService implements AuthConstructor
             null,
             true, // secure
             true, // httpOnly
-            false, // raw
+            true, // raw
             'Strict' // sameSite
         );
 
