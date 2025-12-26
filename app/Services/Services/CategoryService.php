@@ -15,7 +15,7 @@ class CategoryService implements CategoryConstructor
     public function index(): AnonymousResourceCollection
     {
         return CategoryResource::collection(
-            Category::all()
+            Category::all()->load('posts')
         );
     }
 
@@ -24,6 +24,6 @@ class CategoryService implements CategoryConstructor
      */
     public function show(Category $category): CategoryResource
     {
-        return CategoryResource::make($category);
+        return CategoryResource::make($category->load('posts'));
     }
 }

@@ -18,7 +18,8 @@ class CategoryResource extends JsonResource
             "id" => $this->id,
             "title" => $this->title,
             "description" => $this->description,
-            "created_at" => $this->created_at
+            "posts" => PostResource::collection($this->posts),
+            "created_at" => $this->created_at,
         ];
     }
 }
