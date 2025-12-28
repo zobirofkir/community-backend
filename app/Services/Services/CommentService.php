@@ -33,7 +33,8 @@ class CommentService implements CommentConstructor
     public function index(): AnonymousResourceCollection
     {
         return CommentResource::collection(
-            Comment::all()->load(['user', 'post'])
+            Comment::orderBy('created_at', 'desc')->get()
+                ->load(['user', 'post'])
         );
     }
 
