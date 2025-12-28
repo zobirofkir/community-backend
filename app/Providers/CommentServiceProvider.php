@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\Services\CommentService;
 use Illuminate\Support\ServiceProvider;
 
 class CommentServiceProvider extends ServiceProvider
@@ -11,7 +12,9 @@ class CommentServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind("CommentService", function() {
+            return new CommentService();
+        });
     }
 
     /**
