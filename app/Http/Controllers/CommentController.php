@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CommentRequest;
 use App\Http\Resources\CommentResource;
 use App\Models\Comment;
+use App\Models\Post;
 use App\Services\Constructors\CommentConstructor;
 use App\Services\Facades\CommentFacade;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -30,8 +31,8 @@ class CommentController extends Controller implements CommentConstructor
     /**
      * Show specific comment
      */
-    public function show(Comment $comment) : CommentResource
+    public function show(Post $post, Comment $comment): CommentResource
     {
-        return CommentFacade::show($comment);
+        return CommentFacade::show($post, $comment);
     }
 }

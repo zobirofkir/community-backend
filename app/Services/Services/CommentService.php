@@ -39,7 +39,7 @@ class CommentService implements CommentConstructor
     /**
      * Show specific comment
      */
-    public function show(Comment $comment): CommentResource
+    public function show(Post $post, Comment $comment): CommentResource
     {
         return CommentResource::make($comment);
     }

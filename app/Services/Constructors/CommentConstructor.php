@@ -5,6 +5,7 @@ namespace App\Services\Constructors;
 use App\Http\Requests\CommentRequest;
 use App\Http\Resources\CommentResource;
 use App\Models\Comment;
+use App\Models\Post;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 interface CommentConstructor
@@ -22,5 +23,5 @@ interface CommentConstructor
     /**
      * Show specific comment
      */
-    public function show(Comment $comment) : CommentResource;
+    public function show(Post $post, Comment $comment): CommentResource;
 }
