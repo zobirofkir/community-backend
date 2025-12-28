@@ -25,4 +25,4 @@ Route::post('posts/{post}/likes', [LikeController::class, 'like']);
 /**
  * Comments routes
  */
-Route::apiResource('posts.comments', CommentController::class);
+Route::apiResource('posts.comments', CommentController::class)->scoped();
