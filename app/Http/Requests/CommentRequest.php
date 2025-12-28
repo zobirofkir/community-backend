@@ -23,7 +23,7 @@ class CommentRequest extends FormRequest
     {
         return [
             'post_id' => 'required|integer|exists:posts,id',
-            'content' => 'required|string|max:255',
+            'content' => 'required|string',
         ];
     }
 
@@ -40,7 +40,6 @@ class CommentRequest extends FormRequest
             'post_id.exists' => 'The specified post does not exist.',
             'content.required' => 'Content is required.',
             'content.string' => 'Content must be a string.',
-            'content.max' => 'Content may not be greater than 255 characters.',
         ];
     }
 }
