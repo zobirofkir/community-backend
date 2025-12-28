@@ -4,6 +4,7 @@ namespace App\Services\Constructors;
 
 use App\Http\Requests\CommentRequest;
 use App\Http\Resources\CommentResource;
+use App\Models\Comment;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 interface CommentConstructor
@@ -17,4 +18,9 @@ interface CommentConstructor
      * List all comments
      */
     public function index() : AnonymousResourceCollection;
+
+    /**
+     * Show specific comment
+     */
+    public function show(Comment $comment) : CommentResource;
 }

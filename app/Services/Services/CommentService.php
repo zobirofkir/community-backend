@@ -35,4 +35,12 @@ class CommentService implements CommentConstructor
             Comment::all()
         );
     }
+
+    /**
+     * Show specific comment
+     */
+    public function show(Comment $comment): CommentResource
+    {
+        return CommentResource::make($comment);
+    }
 }
