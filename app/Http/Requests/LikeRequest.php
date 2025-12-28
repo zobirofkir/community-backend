@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class LikeRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class LikeRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +23,9 @@ class LikeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'post_id' => 'required|integer|exists:posts,id',
+
+            'type' => 'required',Rule::in(['like', 'dislike']),
         ];
     }
 }
