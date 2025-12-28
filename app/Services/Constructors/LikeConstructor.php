@@ -2,7 +2,10 @@
 
 namespace App\Services\Constructors;
 
-interface LikeConstructor
+use App\Http\Requests\LikeRequest;
+use App\Http\Resources\LikeResource;
+
+interface LikeConstructor 
 {
-    //
+    public function like(LikeRequest $request) : LikeResource;
 }
