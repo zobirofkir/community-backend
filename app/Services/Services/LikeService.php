@@ -24,6 +24,7 @@ class LikeService implements LikeConstructor
                 $reaction->delete();
 
                 return new LikeResource([
+                    'status' => 'removed',
                     'type'   => null,
                 ]);
             }
