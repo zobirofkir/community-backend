@@ -42,6 +42,6 @@ class CommentService implements CommentConstructor
      */
     public function show(Post $post, Comment $comment): CommentResource
     {
-        return CommentResource::make($comment);
+        return CommentResource::make($comment->load(['user' , 'post']));
     }
 }
