@@ -22,7 +22,8 @@ class CommentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'content' => 'required|string|max:255'
+            'post_id' => 'required|integer|exists:posts,id',
+            'content' => 'required|string|max:255',
         ];
     }
 
@@ -34,6 +35,9 @@ class CommentRequest extends FormRequest
     public function messages()
     {
         return [
+            'post_id.required' => 'Post ID is required.',
+            'post_id.integer' => 'Post ID must be an integer.',
+            'post_id.exists' => 'The specified post does not exist.',
             'content.required' => 'Content is required.',
             'content.string' => 'Content must be a string.',
             'content.max' => 'Content may not be greater than 255 characters.',
