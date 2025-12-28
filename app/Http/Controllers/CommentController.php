@@ -7,7 +7,6 @@ use App\Http\Resources\CommentResource;
 use App\Models\Comment;
 use App\Services\Constructors\CommentConstructor;
 use App\Services\Facades\CommentFacade;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class CommentController extends Controller implements CommentConstructor
@@ -31,7 +30,7 @@ class CommentController extends Controller implements CommentConstructor
     /**
      * Show specific comment
      */
-    public function show(Comment $comment): CommentResource
+    public function show(Comment $comment) : CommentResource
     {
         return CommentFacade::show($comment);
     }
