@@ -18,7 +18,7 @@ interface CommentConstructor
     /**
      * List all comments
      */
-    public function index() : AnonymousResourceCollection;
+    public function index(Post $post) : AnonymousResourceCollection;
 
     /**
      * Show specific comment

@@ -30,11 +30,13 @@ class CommentService implements CommentConstructor
     /**
      * List all comments
      */
-    public function index(): AnonymousResourceCollection
+    public function index(Post $post): AnonymousResourceCollection
     {
         return CommentResource::collection(
-            Comment::orderBy('created_at', 'desc')->get()
-                ->load(['user', 'post'])
+            $post->comments()
+                ->with(['user'])
+                ->orderBy('created_at', 'desc')
+                ->get()
         );
     }
 
