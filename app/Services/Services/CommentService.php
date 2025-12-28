@@ -21,8 +21,7 @@ class CommentService implements CommentConstructor
             Comment::create(
                 array_merge(
                     $request->validated(),
-                    ['user_id' => Auth::id()],
-                    ['post_id' => $request->post_id]
+                    ['user_id' => Auth::id()]
                 )
             )
         );
