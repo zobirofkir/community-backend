@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
@@ -20,3 +21,8 @@ Route::apiResource('posts', PostController::class);
  * Likes routes
  */
 Route::post('posts/{post}/likes', [LikeController::class, 'like']);
+
+/**
+ * Comments routes
+ */
+Route::apiResource('posts.comments', CommentController::class);
