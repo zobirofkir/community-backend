@@ -31,6 +31,8 @@ class CommentService implements CommentConstructor
      */
     public function index(): AnonymousResourceCollection
     {
-        throw new \Exception('Not implemented');
+        return CommentResource::collection(
+            Comment::all()
+        );
     }
 }
