@@ -25,7 +25,7 @@ class CommentController extends Controller implements CommentConstructor
      */
     public function index(Post $post): AnonymousResourceCollection
     {
-        return CommentFacade::index();
+        return CommentFacade::index($post);
     }
 
     /**
