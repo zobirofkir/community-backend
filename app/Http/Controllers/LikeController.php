@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class LikeController extends Controller implements LikeConstructor
 {
-    public function like(LikeRequest $request) : LikeResource 
+    public function like(LikeRequest $request) 
     {
         return LikeFacade::like($request);
     }

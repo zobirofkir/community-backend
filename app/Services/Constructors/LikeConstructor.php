@@ -7,5 +7,5 @@ use App\Http\Resources\LikeResource;
 
 interface LikeConstructor 
 {
-    public function like(LikeRequest $request) : LikeResource;
+    public function like(LikeRequest $request);
 }

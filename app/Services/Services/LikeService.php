@@ -9,7 +9,7 @@ use App\Services\Constructors\LikeConstructor;
 
 class LikeService implements LikeConstructor
 {
-    public function like(LikeRequest $request): LikeResource
+    public function like(LikeRequest $request)
     {
         $user = $request->user();
         $postId = $request->post_id;
@@ -27,11 +27,11 @@ class LikeService implements LikeConstructor
             /**
              * disable (like <-> dislike)
              */
-            $reaction->update([
-                'type' => $type,
-            ]);
-
-            return new LikeResource($reaction);
+            return LikeResource::make(
+                $reaction->update([
+                    'type' => $type,
+                ])
+            );
         }
 
         $reaction = Like::create([
@@ -40,6 +40,6 @@ class LikeService implements LikeConstructor
             'type'    => $type,
         ]);
 
-        return new LikeResource($reaction);
+        return LikeResource::make($reaction);
     }
 }
