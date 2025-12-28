@@ -4,8 +4,10 @@ namespace App\Services\Services;
 
 use App\Http\Requests\CommentRequest;
 use App\Http\Resources\CommentResource;
+use App\Models\Comment;
 use App\Services\Constructors\CommentConstructor;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Auth;
 
 class CommentService implements CommentConstructor
 {
@@ -14,7 +16,14 @@ class CommentService implements CommentConstructor
      */
     public function store(CommentRequest $request): CommentResource
     {
-        throw new \Exception('Not implemented');
+        return CommentResource::make(
+            Comment::create(
+                array_merge(
+                    $request->validated(),
+                    ['user_id' => Auth::id()]
+                )
+            )
+        );
     }
 
     /**
