@@ -24,8 +24,24 @@ class LikeRequest extends FormRequest
     {
         return [
             'post_id' => 'required|integer|exists:posts,id',
-
             'type' => 'required',Rule::in(['like', 'dislike']),
         ];
     }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'post_id.required' => 'The post is required.',
+            'post_id.exists'   => 'The post does not exist.',
+
+            'type.required'    => 'The reaction type is required.',
+            'type.in'          => 'The reaction type must be either like or dislike.',
+        ];
+    }
+
 }
