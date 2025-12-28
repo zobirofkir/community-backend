@@ -22,7 +22,7 @@ class PostQueryBuilder
         return new static($request);
     }
 
-    public function withRelations(array $relations = ['user', 'category']): self
+    public function withRelations(array $relations = ['user', 'category', 'likes']): self
     {
         $this->query->with($relations);
         return $this;

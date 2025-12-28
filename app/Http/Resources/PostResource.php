@@ -28,7 +28,7 @@ class PostResource extends JsonResource
             'category' => CategoryResource::make(
                 $this->whenLoaded('category')
             ),
-
+            "like" => LikeResource::make($this->whenLoaded('likes'))
         ];
     }
 }
