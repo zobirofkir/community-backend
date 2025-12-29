@@ -19,11 +19,11 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => ['https://www.pixcoders.codes'],
 
     'allowed_origins_patterns' => [],
 
-    'allowed_headers' => ['pixcoders.codes'],
+    'allowed_headers' => ['*'],
 
     'exposed_headers' => [],
 
